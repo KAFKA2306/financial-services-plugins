@@ -1,150 +1,219 @@
-# Claude for Financial Services Plugins
+# financial-services-plugins — Anthropic金融サービスpluginの旧snapshot
 
-Plugins that turn Claude into a specialist for financial services — investment banking, equity research, private equity, and wealth management. Built for [Claude Cowork](https://claude.com/product/cowork), also compatible with [Claude Code](https://claude.com/product/claude-code).
+このリポジトリは、Anthropicが公開した金融サービス向けClaude plugin群を、2026年2月24日時点の履歴で保持しているsnapshotです。
 
-## Why Plugins
+**KAFKA2306独自の金融分析製品ではありません。** コード、skill、command、connectorの上流正準と最新情報は、Anthropicの現行リポジトリを確認してください。
 
-Cowork lets you set the goal and Claude delivers finished, professional work. Plugins let you go further: tell Claude how your firm does analysis, which data sources to pull from, how to handle critical workflows, and what slash commands to expose — so your team gets better and more consistent outcomes.
+- 現行上流: https://github.com/anthropics/financial-services
+- 旧上流名: https://github.com/anthropics/financial-services-plugins
+- このsnapshotの最終commit: `c5947c8b0686da6fc9c2e4bd4dbdcb7fd4073ff6`
+- このsnapshotの最終commit日時: 2026年2月24日
+- ライセンス: Apache License 2.0
 
-Each plugin bundles the skills, connectors, slash commands, and sub-agents for a specific financial services workflow. Out of the box, they give Claude a strong starting point for helping anyone in that role. The real power comes when you customize them for your firm — your models, your templates, your processes — so Claude works like it was built for your team.
+> **状態:** upstream snapshot / 更新停止  
+> **利用前提:** 現行上流との差分、plugin schema、connector、利用条件を再確認  
+> **KAFKA固有差分:** 2026年8月4日のcommit監査では確認できず
 
-## What is Claude for Financial Services?
+---
 
-Claude for Financial Services is a comprehensive solution built on Claude for Enterprise with specialized capabilities for financial analysis. It connects Claude to the data sources and tools financial professionals use daily — eliminating the need to juggle multiple browser tabs and improving source verification to reduce the risk of errors from manual data gathering.
+## 何を含むsnapshotか
 
-## End-to-End Workflows
+取得時点では、Claudeを金融業務へ適用するためのfile-based pluginが含まれています。
 
-These plugins aren't just a collection of point tools — they enable complete workflows that span research, analysis, modeling, and output creation:
+主な領域:
 
-- **Research to Report**: Pull real-time data from MCP providers, analyze earnings results, and generate publication-ready equity research reports — all in a single session
-- **Spreadsheet Analysis**: Build comparable company analyses, DCF models, and LBO models as fully functional Excel workbooks with live formulas, sensitivity tables, and industry-standard formatting
-- **Financial Modeling**: Populate 3-statement models from SEC filings, cross-check assumptions against peer data, and stress-test scenarios — with blue/black/green color coding conventions built in
-- **Deal Materials**: Draft CIMs, teasers, and process letters, then generate pitch deck slides and strip profiles using your firm's branded PowerPoint templates
-- **Portfolio to Presentation**: Screen opportunities, run diligence checklists, build IC memos, and track portfolio KPIs — moving seamlessly from data to deliverable
+- financial analysis
+- investment banking
+- equity research
+- private equity
+- wealth management
+- partner-built plugin
 
-Each workflow connects upstream data sources (via MCP) to downstream outputs (Excel, PowerPoint, Word), so you move from question to finished work product without context-switching.
+pluginは主に次の要素で構成されます。
 
-## Plugin Marketplace
-
-Start with **financial analysis** — the core plugin that provides shared modeling tools and all MCP data connectors. Then add any function-specific plugins to enhance Claude's capabilities for your workflow.
-
-| Plugin | Type | How it helps | Connectors |
-|--------|------|-------------|------------|
-| **[financial analysis](./financial-analysis)** | Core (install first) | Build comps, DCF models, LBO models, and 3-statement financials. QC presentations and create reusable PPT templates. Provides the shared foundation and all data connectors. | Daloopa, Morningstar, S&P Global, FactSet, Moody's, MT Newswires, Aiera, LSEG, PitchBook, Chronograph, Egnyte |
-| **[investment banking](./investment-banking)** | Add-on | Draft CIMs, teasers, and process letters. Build buyer lists, run merger models, create strip profiles, and track live deals through milestones. | — |
-| **[equity research](./equity-research)** | Add-on | Write earnings updates and initiating coverage reports. Maintain investment theses, track catalysts, draft morning notes, and screen for new ideas. | — |
-| **[private equity](./private-equity)** | Add-on | Source and screen deals, run due diligence checklists, analyze unit economics and returns, draft IC memos, and monitor portfolio company KPIs. | — |
-| **[wealth management](./wealth-management)** | Add-on | Prep for client meetings, build financial plans, rebalance portfolios, generate client reports, and identify tax-loss harvesting opportunities. | — |
-
-**41 skills, 38 commands, 11 MCP integrations**
-
-Install these directly from Cowork, browse the full collection here on GitHub, or build your own.
-
-### Partner-Built Plugins
-
-These plugins are built and maintained by our data partners, bringing their financial data and analytics directly into Claude workflows.
-
-| Plugin | Partner | How it helps |
-|--------|---------|-------------|
-| **[LSEG](./partner-built/lseg)** | [LSEG](https://www.lseg.com/) | Price bonds, analyze yield curves, evaluate FX carry trades, value options, and build macro dashboards using LSEG financial data and analytics. 8 commands covering fixed income, FX, equities, and macro. |
-| **[S&P Global](./partner-built/spglobal)** | [S&P Global](https://www.spglobal.com/) | Generate company tearsheets, earnings previews, and funding digests powered by S&P Capital IQ data. Supports multiple audience types (equity research, IB/M&A, corp dev, sales). |
-
-## Getting Started
-
-### Cowork
-
-Install plugins from [claude.com/plugins](https://claude.com/plugins/).
-
-### Claude Code
-
-```bash
-# Add the marketplace
-claude plugin marketplace add anthropics/financial-services-plugins
-
-# Install the core plugin first (required)
-claude plugin install financial-analysis@financial-services-plugins
-
-# Then add function-specific plugins as needed
-claude plugin install investment-banking@financial-services-plugins
-claude plugin install equity-research@financial-services-plugins
-claude plugin install private-equity@financial-services-plugins
-claude plugin install wealth-management@financial-services-plugins
-```
-
-Once installed, plugins activate automatically. Skills fire when relevant, and slash commands are available in your session:
-
-```bash
-/comps [company]                # Comparable company analysis
-/dcf [company]                  # DCF valuation model
-/earnings [company] [quarter]   # Post-earnings update report
-/one-pager [company]            # One-page company profile
-/ic-memo [project name]         # Investment committee memo
-/source [criteria]              # Deal sourcing
-/client-review [client]         # Client meeting prep
-```
-
-## How Plugins Work
-
-Every plugin follows the same structure:
-
-```
+```text
 plugin-name/
-├── .claude-plugin/plugin.json   # Manifest
-├── .mcp.json                    # Tool connections
-├── commands/                    # Slash commands you invoke explicitly
-└── skills/                      # Domain knowledge Claude draws on automatically
+├── .claude-plugin/plugin.json   manifest
+├── .mcp.json                    MCP connector設定
+├── commands/                    明示的に実行するcommand
+└── skills/                      domain知識とworkflow
 ```
 
-- **Skills** encode the domain expertise, best practices, and step-by-step workflows Claude needs to deliver professional-quality financial work. Claude draws on them automatically when relevant.
-- **Commands** are explicit actions you trigger (e.g., `/comps`, `/earnings`, `/ic-memo`).
-- **Connectors** wire Claude to the external data sources your workflow depends on — financial data terminals, research platforms, document management, and more — via [MCP servers](https://modelcontextprotocol.io/).
+これらはMarkdownとJSONを中心とする指示・設定資産です。KAFKA2306の`investor`や`CrewTrade`の実装、data、model、検証結果とは別物です。
 
-Every component is file-based — markdown and JSON, no code, no infrastructure, no build steps.
+---
 
-## MCP Integrations
+## 現行上流との関係
 
-All connectors are centralized in the **financial analysis** core plugin and shared across all add-on plugins.
+Anthropicの現行公開リポジトリは`anthropics/financial-services`です。現行上流では、pluginだけでなく、agent、managed-agent cookbook、Microsoft 365向け導入tool、検証scriptなどを含む構造へ拡張されています。
 
-| Provider | URL |
-|----------|-----|
-| [Daloopa](https://www.daloopa.com/) | `https://mcp.daloopa.com/server/mcp` |
-| [Morningstar](https://www.morningstar.com/) | `https://mcp.morningstar.com/mcp` |
-| [S&P Global](https://www.spglobal.com/) | `https://kfinance.kensho.com/integrations/mcp` |
-| [FactSet](https://www.factset.com/) | `https://mcp.factset.com/mcp` |
-| [Moody's](https://www.moodys.com/) | `https://api.moodys.com/genai-ready-data/m1/mcp` |
-| [MT Newswires](https://www.mtnewswires.com/) | `https://vast-mcp.blueskyapi.com/mtnewswires` |
-| [Aiera](https://www.aiera.com/) | `https://mcp-pub.aiera.com` |
-| [LSEG](https://www.lseg.com/) | `https://api.analytics.lseg.com/lfa/mcp` |
-| [PitchBook](https://pitchbook.com/) | `https://premium.mcp.pitchbook.com/mcp` |
-| [Chronograph](https://www.chronograph.pe/) | `https://ai.chronograph.pe/mcp` |
-| [Egnyte](https://www.egnyte.com/) | `https://mcp-server.egnyte.com/mcp` |
+```text
+anthropics/financial-services
+  現行の上流正準
+        │
+        └─ 継続更新、schema変更、install経路変更
 
-> MCP access may require a subscription or API key from the respective provider.
+KAFKA2306/financial-services-plugins
+  2026-02-24までの旧snapshot
+  KAFKA固有機能の正準ではない
+```
 
-## Making Them Yours
+このsnapshotのREADMEやinstall commandを、現行上流の最新手順として使わないでください。
 
-These plugins are starting points. They become much more useful when you customize them for how your firm actually works:
+---
 
-- **Swap connectors** — Edit `.mcp.json` to point at your specific data providers and internal tools.
-- **Add firm context** — Drop your terminology, deal processes, and formatting standards into skill files so Claude understands your world.
-- **Bring your templates** — Use `/ppt-template` to teach Claude your firm's branded PowerPoint layouts, so every deck matches your style guide.
-- **Adjust workflows** — Modify skill instructions to match how your team actually does analysis, not how a textbook says to.
-- **Build new plugins** — Follow the structure above to create plugins for workflows we haven't covered yet.
+## KAFKA2306内での位置づけ
 
-As your team builds and shares plugins, Claude becomes a cross-functional expert. The context you define gets baked into every relevant interaction, so leaders can spend less time enforcing processes and more time improving them.
+KAFKA2306の金融・投資研究で正準となる主なリポジトリは次です。
 
-## Contributing
+- [`KAFKA2306/investor`](https://github.com/KAFKA2306/investor) — 投資研究、企業知識DB/API、金利・為替、公開画面
+- [`KAFKA2306/CrewTrade`](https://github.com/KAFKA2306/CrewTrade) — 定量研究catalogと証拠監査
+- [`KAFKA2306/semiconductor-earnings-model`](https://github.com/KAFKA2306/semiconductor-earnings-model) — 半導体企業の決算model
+- [`KAFKA2306/WealthAudit`](https://github.com/KAFKA2306/WealthAudit) — 個人資産の監査と予測
 
-Plugins are just markdown files. Fork the repo, make your changes, and submit a PR. For new skills or plugins, include:
+このsnapshotのskillを参考にする場合も、分析data、計算、証拠、成果物の正準は各domain repositoryへ保持します。
 
-- A `SKILL.md` with clear trigger conditions and workflow steps
-- A corresponding command in `commands/` if user-invocable
-- Updated plugin manifest if adding new capabilities
+---
 
-## License
+## 含まれるworkflowの例
 
-[Apache License 2.0](./LICENSE)
+取得時点の上流READMEでは、次のようなworkflowが説明されていました。
 
-## Disclaimer
+- comparable company analysis
+- DCF
+- LBO
+- 3-statement model
+- earnings update
+- initiating coverage
+- investment committee memo
+- deal sourcing
+- client review
+- portfolio KPI monitoring
 
-These plugins assist with financial workflows but do not provide financial or investing advice. Always verify conclusions with qualified financial professionals. AI-generated analysis should be reviewed by financial professionals before being relied upon for financial or investment decisions.
+これらはpluginが支援するworkflowの説明です。分析結果の正確性、契約dataへのaccess、ExcelやPowerPointの完成品質、投資判断の妥当性を保証するものではありません。
+
+---
+
+## MCP connector
+
+snapshotには、金融data providerへ接続するMCP設定例が含まれます。
+
+例:
+
+- Daloopa
+- Morningstar
+- S&P Global
+- FactSet
+- Moody's
+- LSEG
+- PitchBook
+- Aiera
+- Chronograph
+- Egnyte
+
+providerごとに契約、API key、認証、利用範囲、再配布条件、rate limitが異なります。
+
+MCP URLがfileに書かれていることは、次を意味しません。
+
+- 利用契約がある
+- 認証済みである
+- endpointが現在も有効である
+- dataを公開成果物へ転載できる
+- KAFKA2306がproviderを推奨している
+
+---
+
+## 利用する場合
+
+### 現行版を使う
+
+新規導入では、原則としてAnthropicの現行上流を確認します。
+
+```text
+https://github.com/anthropics/financial-services
+```
+
+install command、marketplace名、plugin schemaは変更され得ます。現行上流READMEとClaude製品の公式資料を確認してください。
+
+### このsnapshotを調査する
+
+特定時点の構造比較、skill設計研究、差分監査など、snapshotそのものを調べる場合に使用できます。
+
+```bash
+git clone https://github.com/KAFKA2306/financial-services-plugins.git
+cd financial-services-plugins
+git log --oneline --decorate
+```
+
+pluginを実行する前に、少なくとも次を確認します。
+
+- `.claude-plugin/plugin.json`
+- `.mcp.json`
+- `commands/`
+- `skills/`
+- connectorの認証要求
+- shellや外部toolを実行する指示
+- 現行Claude Code / Cowork schemaとの互換性
+
+---
+
+## 更新・同期方針
+
+このリポジトリでは、2026年8月4日時点で自動同期workflowを確認していません。
+
+今後の選択肢:
+
+1. snapshotとしてarchiveする
+2. 現行上流へ追随するmirrorとして再構築する
+3. 必要なskillだけを`agent-resources`へ出典付きで移植する
+4. KAFKA固有pluginを別directoryまたは別repositoryで管理する
+
+上流追随とKAFKA固有変更を同じbranchへ無秩序に混ぜません。継続する場合は、upstream remote、基準commit、差分一覧、同期手順をREADMEへ追加します。
+
+---
+
+## セキュリティ
+
+金融pluginは、機密dataや外部providerへ接続する可能性があります。
+
+実行前に確認するもの:
+
+- pluginの全文
+- MCP endpoint
+- 認証方法
+- providerの利用契約
+- file読取・書込範囲
+- spreadsheet、document、presentationへの出力内容
+- 外部通信
+- prompt injectionへの耐性
+- 個人情報、顧客情報、未公開情報の取扱い
+
+保存しないもの:
+
+- API key、token、cookie
+- 顧客data
+- 未公開案件情報
+- private equityの非公開資料
+- 証券口座情報
+- 契約上再配布できないprovider data
+
+---
+
+## 既知の制約
+
+- 現行上流より古いsnapshotです。
+- 現行のinstall path、marketplace名、plugin schemaと一致しない可能性があります。
+- KAFKA固有の変更、検証、CIを確認できません。
+- connectorの現在稼働や利用権を保証しません。
+- AI生成の金融分析は専門家レビューと一次資料照合が必要です。
+- このrepositoryは投資助言、売買推奨、法務・税務助言を提供しません。
+
+---
+
+## ライセンス
+
+Apache License 2.0。詳細は[`LICENSE`](LICENSE)を確認してください。
+
+上流plugin、partner-built plugin、外部provider data、生成成果物には、別の利用条件が適用される場合があります。
+
+**README実体監査:** 2026年8月4日
